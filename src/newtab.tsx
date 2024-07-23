@@ -1,9 +1,13 @@
-import { useState } from "react"
+import { useState } from "react";
+import { useStorage } from "@plasmohq/storage/hook";
 
-import "./style.css"
+import "./style.css";
 
 function IndexNewtab() {
-  const [data, setData] = useState("")
+  const [data, setData] = useState("");
+  const [projects] = useStorage("projects");
+
+  console.log(projects);
 
   return (
     <div
@@ -11,15 +15,28 @@ function IndexNewtab() {
       style={{
         padding: 16,
         display: "flex",
-        flexDirection: "column"
-      }}>
-      <h1>
-        Welcome to your <a href="https://www.plasmo.com">Plasmo</a> Extension!
-      </h1>
+        flexDirection: "column",
+      }}
+    >
+      <h1>Projects</h1>
+      {projects &&
+        projects.map((project) => {
+          return (
+            <li key={project.id}>
+              {project.id}
+              <ul>
+                {project.tabs.map((tab) => (
+                  <li key={tab}>{tab}</li>
+                ))}
+              </ul>
+            </li>
+          );
+        })}
+
       <input onChange={(e) => setData(e.target.value)} value={data} />
-      <footer>Crafted by @PlasmoHQ</footer>
+      <footer>Crafted by @theErikss0n</footer>
     </div>
-  )
+  );
 }
 
-export default IndexNewtab
+export default IndexNewtab;
